@@ -154,6 +154,7 @@ DEPENDENCIES
   dotenv-rails
   jbuilder (~> 2.0)
   jquery-rails
+  json
   rails (= 4.2.5)
   rails_12factor
   sass-rails (~> 5.0)

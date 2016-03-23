@@ -1,0 +1,45 @@
+
+
+<div class="container">
+
+
+	<div class="row">
+		<div class="col-xs-3">
+			<dl class="dl-horizontal">
+				<dt>ID</dt>
+				<dd><%=@prospect["id"]%></dd>
+
+				<dt>名前</dt>
+				<dd><%=@prospect["last_name"]%> <%=@prospect["first_name"]%></dd>
+
+				<dt>Pardotスコア</dt>
+				<dd><%=@prospect["score"]%></dd>
+
+				<dt>Pardotグレード</dt>
+				<dd><%=@prospect["grade"]%></dd>
+			</dl>
+			
+		</div> 
+		<div class="col-xs-9">
+			<table class="table" style="margin-left:10px;">
+				<% @prospect["visitor_activities"]["visitor_activity"].each do |activity| %>
+					<tr>
+						<td><%=activity["id"]%></td>
+						<td><%=activity["type_name"]%></td>
+						<td><%=activity["details"]%></td>
+						<td><%=activity["created_at"]%></td>
+					</tr>
+				<% end %>
+
+			</table>
+		<div>
+
+	</div>
+
+
+
+
+	
+
+</div>
+
