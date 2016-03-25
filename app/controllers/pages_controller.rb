@@ -57,9 +57,16 @@ class PagesController < ApplicationController
 		    uri.request_uri, param
 		)
 		response = JSON.parse(res.body)
+		p response["@attributes"]["stat"]
+
+		if response["@attributes"]["stat"] == "fail"
+			@prospect = nil
+		else
+			@prospect = response["prospect"]
+			@prospect["visitor_activities"]["visitor_activity"].sort! do |a, b|  b["created_at"] <=> a["created_at"] end
+		end
 	    
-		@prospect = response["prospect"]
-		@prospect["visitor_activities"]["visitor_activity"].sort! do |a, b|  b["created_at"] <=> a["created_at"] end
+		
 	
 	end
 

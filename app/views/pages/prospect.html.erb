@@ -22,64 +22,85 @@ li{
 
 <div class="container">
 
-	<div class="row">
-		<div class="col-xs-3">
-			<dl class="dl-horizontal">
-				<dt>ID</dt>
-				<dd><%=@prospect["id"]%></dd>
-
-				<dt>名前</dt>
-				<dd><%=@prospect["last_name"]%> <%=@prospect["first_name"]%></dd>
-
-				<dt>Pardotスコア</dt>
-				<dd><%=@prospect["score"]%></dd>
-
-				<dt>Pardotグレード</dt>
-				<dd><%=@prospect["grade"]%></dd>
-			</dl>
-			
-		</div> 
-		<div class="col-xs-9">
-			<table class="table" style="margin-left:10px;">
-				<% @prospect["visitor_activities"]["visitor_activity"].each do |activity| %>
-					<tr>
-						<td><%=activity["type_name"]%></td>
-						<td><%=activity["details"]%></td>
-						<td><%=activity["created_at"]%></td>
-						<td>
-							<% if activity["type"] == 5 %>
-								<button class="btn btn-default pageViewButton"  activityId="<%=activity["id"]%>">
-									<img class="spinner" src="<%=image_path("spinner.gif")  %>" >
-									詳細
-								</button>
-								<button class="btn btn-danger pageViewButtonHide"  activityId="<%=activity["id"]%>" style="display: none;">				
-									非表示
-								</button>
-								
+	<% if @prospect.present? %>
 
 
-							<% end %>
-						</td>
 
-					</tr>
-					
-					<tr>
-						<td colspan="4">
-							<div id="detail_<%=activity["id"]%>"></div>	
-						</td>							
-					</tr>
+		<div class="row">
+			<div class="col-xs-3">
+				<dl class="dl-horizontal">
+					<dt>ID</dt>
+					<dd><%=@prospect["id"]%></dd>
+
+					<dt>名前</dt>
+					<dd><%=@prospect["last_name"]%> <%=@prospect["first_name"]%></dd>
+
+					<dt>Pardotスコア</dt>
+					<dd><%=@prospect["score"]%></dd>
+
+					<dt>Pardotグレード</dt>
+					<dd><%=@prospect["grade"]%></dd>
+				</dl>
 				
+			</div> 
+			<div class="col-xs-9">
+				<table class="table" style="margin-left:10px;">
+					<% @prospect["visitor_activities"]["visitor_activity"].each do |activity| %>
+						<tr>
+							<td><%=activity["type_name"]%></td>
+							<td><%=activity["details"]%></td>
+							<td><%=activity["created_at"]%></td>
+							<td>
+								<% if activity["type"] == 5 %>
+									<button class="btn btn-default pageViewButton"  activityId="<%=activity["id"]%>">
+										<img class="spinner" src="<%=image_path("spinner.gif")  %>" >
+										詳細
+									</button>
+									<button class="btn btn-danger pageViewButtonHide"  activityId="<%=activity["id"]%>" style="display: none;">				
+										非表示
+									</button>
+									
 
-				<% end %>
 
-			</table>
+								<% end %>
+							</td>
 
+						</tr>
+						
+						<tr>
+							<td colspan="4">
+								<div id="detail_<%=activity["id"]%>"></div>	
+							</td>							
+						</tr>
+					
+
+					<% end %>
+
+				</table>
+
+			</div>
 		</div>
-	</div>
-	<div style="display: none;">
-		<h3>Raw Response</h3>		
-		<%=@prospect.to_json %>
-	</div>
+		<div style="display: none;">
+			<h3>Raw Response</h3>		
+			<%=@prospect.to_json %>
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<% else %>
+		見つかりませんでした。
+	<% end %>
 
 </div>
 
