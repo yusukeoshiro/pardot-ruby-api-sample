@@ -44,7 +44,6 @@ li{
 			<table class="table" style="margin-left:10px;">
 				<% @prospect["visitor_activities"]["visitor_activity"].each do |activity| %>
 					<tr>
-						<td><%=activity["id"]%></td>
 						<td><%=activity["type_name"]%></td>
 						<td><%=activity["details"]%></td>
 						<td><%=activity["created_at"]%></td>
@@ -66,7 +65,7 @@ li{
 					</tr>
 					
 					<tr>
-						<td colspan="5">
+						<td colspan="4">
 							<div id="detail_<%=activity["id"]%>"></div>	
 						</td>							
 					</tr>
