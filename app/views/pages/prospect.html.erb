@@ -99,6 +99,9 @@ li{
 
 	$(function(){
 		$(".pageViewButton").click(function(){
+			$(".pageViewButton").prop("disabled", true);
+			
+
 			var id = $(this).attr("activityId");
 			$spinner = $(this).find(".spinner");
 			$spinner.addClass("active");
@@ -119,9 +122,11 @@ li{
 				$button.hide();
 				$hideButton.show();
 				$spinner.removeClass("active");
+				$(".pageViewButton").prop("disabled", false);
 
 			}).fail(function(data){ //ajaxの通信に失敗した場合
 				$spinner.removeClass("active");
+				$(".pageViewButton").prop("disabled", false);
 				alert("error!");
 			});
 
