@@ -1,7 +1,27 @@
+<style type="text/css">
+	
+.spinner{
+	opacity: 0;
+	width: 0;
+	transition: opacity 0.25s, width 0.25s;
+}
+.active{
+	opacity: 1;
+	width: 16px;
+}
 
+li{
+	list-style-type: none;
+	background-color: rgba(0,0,0,0.1);
+	border-radius: 5px;
+	padding: 3px;
+	margin-bottom: 2px;
+}
+
+</style>
 
 <div class="container">
-
+<%=session["test"]%>
 
 	<div class="row">
 		<div class="col-xs-3">
@@ -28,18 +48,101 @@
 						<td><%=activity["type_name"]%></td>
 						<td><%=activity["details"]%></td>
 						<td><%=activity["created_at"]%></td>
+						<td>
+							<% if activity["type"] == 5 %>
+								<button class="btn btn-default pageViewButton"  activityId="<%=activity["id"]%>">
+									<img class="spinner" src="<%=image_path("spinner.gif")  %>" >
+									詳細
+								</button>
+								<button class="btn btn-danger pageViewButtonHide"  activityId="<%=activity["id"]%>" style="display: none;">				
+									非表示
+								</button>
+								
+
+
+							<% end %>
+						</td>
+
 					</tr>
+					
+					<tr>
+						<td colspan="5">
+							<div id="detail_<%=activity["id"]%>"></div>	
+						</td>							
+					</tr>
+				
+
 				<% end %>
 
 			</table>
-		<div>
 
+		</div>
+	</div>
+	<div style="display: none;">
+		<h3>Raw Response</h3>		
+		<%=@prospect.to_json %>
 	</div>
 
-
-
-
-	
-
 </div>
+
+<script type="text/javascript">
+	function getPageViews( id ){
+		console.log( $("#detail_"+id) );
+
+	}
+
+	$(function(){
+		$(".pageViewButton").click(function(){
+			var id = $(this).attr("activityId");
+			$spinner = $(this).find(".spinner");
+			$spinner.addClass("active");
+			$button = $(this);
+			$hideButton = $(this).parent().find(".pageViewButtonHide");
+			
+			$.ajax({
+				url: "/activity/"+id
+			}).done(function(data){ //ajaxの通信に成功した場合			
+				$("#detail_"+id).hide();
+				$("#detail_"+id).html("");
+				
+				for( var i = 0; i < data.length; i++ ){
+					var $li = $("<li>").append( data[i].title + "<br/><small><a href='"+data[i].url+"' target='_blank'>" + data[i].url + "</a></small>" );
+					$("#detail_"+id).append( $li );	
+				}			
+				$("#detail_"+id).show("fast");
+				$button.hide();
+				$hideButton.show();
+				$spinner.removeClass("active");
+
+			}).fail(function(data){ //ajaxの通信に失敗した場合
+				$spinner.removeClass("active");
+				alert("error!");
+			});
+
+		});
+
+		$(".pageViewButtonHide").click(function(){
+			$button = $(this).parent().find(".pageViewButton");
+			$hideButton = $(this);
+			var id = $(this).attr("activityId");
+			$("#detail_"+id).hide("fast");
+
+			$button.show();
+			$hideButton.hide();
+
+
+			
+		});
+	})
+
+
+</script>
+
+
+
+
+
+
+
+
 
