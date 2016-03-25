@@ -43,7 +43,9 @@ class PagesController < ApplicationController
 		api_key = response["api_key"]
 		session["api_key"] = api_key
 		p "apikey = #{api_key}"
-		prospect_email = URI.encode_www_form_component( params[:email] )
+
+
+		prospect_email = URI.encode_www_form_component( params[:email].gsub(" ","+") )
 
 
 		uri = URI.parse("https://pi.pardot.com/api/prospect/version/3/do/read/email/#{prospect_email}") 
